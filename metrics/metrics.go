@@ -8,5 +8,10 @@ import (
 
 func CollectPrometheusMetrics() error {
 	http.Handle("/metrics", promhttp.Handler())
-	return http.ListenAndServe(":2112", nil)
+	err := http.ListenAndServe(":2112", nil)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
