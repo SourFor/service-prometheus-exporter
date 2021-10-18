@@ -7,6 +7,12 @@ import (
 )
 
 func CollectPrometheusMetrics() error {
-	http.Handle("/metrics", promhttp.Handler())
-	return http.ListenAndServe(":2112", nil)
+	mux := http.NewServeMux()
+	srv := &http.Server{
+		Addr:    ":2112",
+		Handler: mux,
+	}
+
+	mux.Handle("/metrics", promhttp.Handler())
+	return srv.ListenAndServe()
 }
